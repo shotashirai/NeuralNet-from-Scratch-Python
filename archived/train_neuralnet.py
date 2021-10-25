@@ -4,16 +4,20 @@ import sys, os
 sys.path.append(os.pardir)
 import numpy as np
 from dataset.preprocess_mnist import load_mnist
-from myModules.multi_layer_net import MultiLayerNetwork
+from NetworkElements.multi_layer_net import MultiLayerNetwork
+from NetworkElements.trainer import *
 
-
-# import data 
+# import data
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 
 # hidden layers
 hidden_size = [50, 50, 50]
 # Generate network
-network = MultiLayerNetwork(input_size=784, hidden_size=hidden_size, output_size=10)
+network = MultiLayerNetwork(
+    input_size=784
+    , hidden_size=hidden_size
+    , output_size=10
+    )
 
 # parameter settings
 iters_num = 10000
@@ -23,7 +27,7 @@ learning_rate = 0.1
 
 current_epoch = 0
 
-train_loss_list = [] # list of loss function 
+train_loss_list = [] # list of loss function
 train_acc_list = [] # list of accuracy for training
 test_acc_list = [] # list of accuracy for test
 
@@ -46,7 +50,7 @@ for i in range(iters_num):
     # loss function (Cross Entropy Loss)
     loss = network.loss(x_batch, t_batch)
     train_loss_list.append(loss)
-    
+
     if i % iter_per_epoch == 0:
         current_epoch += 1
         train_acc = network.accuracy(x_train, t_train)
