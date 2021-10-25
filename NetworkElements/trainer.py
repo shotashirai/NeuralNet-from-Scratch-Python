@@ -48,7 +48,7 @@ class Trainer:
     def train_iter(self):
         """ training at an iteration
         """
-        batch_mask = np.random.choice(self.train_size, self.bathc_size)
+        batch_mask = np.random.choice(self.train_size, self.batch_size)
         x_batch = self.x_train[batch_mask]
         t_batch = self.t_train[batch_mask]
 
@@ -56,7 +56,7 @@ class Trainer:
         grad = self.network.gradient(x_batch, t_batch)
 
         # Based on grad, update weights and biases
-        for idx in range(1, len(self.hidden_size)+1):
+        for idx in range(1, len(self.network.hidden_size)+1):
             self.network.params['W' + str(idx)] -= self.learning_rate * grad['W' + str(idx)]
             self.network.params['b' + str(idx)] -= self.learning_rate * grad['b' + str(idx)]
         # TODO Replace with different optimizer defined by class or function and add options 
@@ -64,10 +64,6 @@ class Trainer:
         loss_func = self.network.loss(x_batch, t_batch)
         # save the value from loss functio to the listn 
         self.train_loss.append(loss_func)
-
-        if self.verbose==2:
-            print(' === train loss (epoch:' + str(self.current_epoch) + '/' + str(self.epochs) + ') ===')
-            print(str(loss_func))
         
         # Update Epoch
         if self.current_iter % self.iter_per_epoch == 0:
@@ -80,15 +76,24 @@ class Trainer:
             # Append the accuracy scores to the lists
             self.train_acc.append(acc_train)
             self.test_acc.append(acc_test)
+            
+            print('Epoch: ' + str(self.current_epoch) + '/' + str(self.epochs) + ' ==============================================')
 
-            if self.verbose == 1:
-                print('=== Accuracy Score (epoch:' + str(self.current_epoch) + '/' + str(self.epochs) + ') ===')
+            if (self.verbose == 1) | (self.verbose == 2):
+                print('--------------')
+                print('Accuracy Score')
+                print('--------------')
                 print('Train: ' + str(acc_train))
                 print('Test: ' + str(acc_test))
-        
+            if self.verbose == 2:
+                print('-------------------')
+                print('Cross Entropy Error')
+                print('-------------------')
+                print('train loss :' + str(loss_func))
+
         # Save parameters
         if not self.save_params_epoch is None:
-            if (self.current_iter % self.iter_per_epoch == 0) & (self.save_params_epoch == self.current_epoch):
+            if (self.current_iter % self.iter_per_epoch == 0) & (self.current_epoch % self.save_params_epoch == 0):
                 file_name = 'params-epoch' + str(self.current_epoch)
                 self.network.save_params(dir_name='trained_params', file_name=file_name)
                 print('==== Parameters (weights & biases) at epoch ' 
@@ -99,23 +104,27 @@ class Trainer:
         self.current_iter += 1
 
     def train(self):
-        print('*** Network training started... ***')
+        print('***********************************************')
+        print('********* Network training started... *********')
+        print('***********************************************')
 
         for i in range(self.max_iter):
             self.train_iter()
         
         final_acc_test = self.network.accuracy(self.x_test, self.t_test)
 
-        if self.verbose == 1:
-            print('========= Final Accuracy Score =========')
-            print('Test: ' + str(final_acc_test))
-            print('========================================')
-
-        print('*** Network training has been done! ***')
+        print('========= Final Accuracy Score =========')
+        print('Test: ' + str(final_acc_test))
+        print('========================================')
+        print()
+        print('***********************************************')
+        print('***    Network training has been done!     ***')
+        print('***********************************************')
 
         if self.save_network:
-            print('=================================================')
-            print('==== Trained network was saved in .pkl file! ====')
-            print('=================================================')
+            save_model(dir_name='trained_model', file_name='model', model_obj=self.network)
+            print('==================================================')
+            print('==== Trained network was saved in .cpkl file! ====')
+            print('==================================================')
 
-        save_model(dir_name='trained_model', file_name='model', model_obj=self.network)
+            

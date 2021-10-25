@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import numpy as np
-from functions import *
+from NetworkElements.functions import *
 
 class Relu:
     """ Rectified Linear Unit (ReLU)
