@@ -54,4 +54,4 @@ trainer = Trainer(network, x_train, t_train, x_test, t_test
 trainer.train()
 
 
-#TODO Visualization of the leraning process
+#TODO Visualization of the learning process

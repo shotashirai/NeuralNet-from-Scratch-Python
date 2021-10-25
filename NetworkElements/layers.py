@@ -32,7 +32,7 @@ class Relu:
 
 class Sigmoid:
     """ Sigmoid function
-    Sigmoid fuction is defined as x / (1 + exp(x))
+    Sigmoid function is defined as x / (1 + exp(x))
 
     Output from sigmoid function is given by 'sigmoid()' in functions.py module.
     """
@@ -53,7 +53,7 @@ class Sigmoid:
 
 class Affine:
     """ Affine layers (Fully-connected layer/Dense layer)
-    Propagate siginals for one layer to the next layer
+    Propagate signals from one layer to the next layer
     """
     
     def __init__(self, W, b):

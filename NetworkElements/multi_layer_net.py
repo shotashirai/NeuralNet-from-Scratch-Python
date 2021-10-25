@@ -15,12 +15,12 @@ from NetworkElements.layers import *
 class MultiLayerNetwork:
     """ Fully-connected Multi layer neural network
     
-    Prameters
-    ---------
+    Parameters
+    ----------
     input_size: input size
     hidden_size (list): a list of nubmer of neurons in the hidden layers (e.g. [100, 100, 100])
     output_size: output size
-    activation: activation fuctions ('relu' or 'sigmoid')
+    activation: activation functions ('relu' or 'sigmoid')
     weight_init_std: standard deviation of weights (e.g., 0.01)
         'relu' or 'he': He initialization
         'sigmoid' or 'xavier': Xavier initialization
@@ -42,7 +42,7 @@ class MultiLayerNetwork:
         # self.dir_name = dir_name
         # self.file_name = file_name
 
-        # Initalize weights ------------------------------------------------------------------------------------
+        # Initialize weights ------------------------------------------------------------------------------------
         self.__init_weight(weight_init_std)
         # if self.warm_start:
         #     self.load_params(dir_name, file_name)

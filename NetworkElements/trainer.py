@@ -36,7 +36,7 @@ class Trainer:
         self.current_epoch = 0
         self.current_iter = 0
 
-        # allocation for logs of loss fucntion, train accuracy, test accuracy 
+        # allocation for logs of loss function, train accuracy, test accuracy 
         self.train_loss = []
         self.train_acc = []
         self.test_acc = []
@@ -62,7 +62,7 @@ class Trainer:
         # TODO Replace with different optimizer defined by class or function and add options 
 
         loss_func = self.network.loss(x_batch, t_batch)
-        # save the value from loss functio to the listn 
+        # save the value from loss function to the list 
         self.train_loss.append(loss_func)
         
         # Update Epoch
